@@ -1,0 +1,4 @@
+.profile__box-title {
+    display: flex;
+    align-items: baseline;
+}

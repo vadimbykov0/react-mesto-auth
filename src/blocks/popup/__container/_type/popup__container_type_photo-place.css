@@ -1,0 +1,9 @@
+.popup__container_type_photo-place {
+    width: auto;
+    height: auto;
+    justify-content: center;
+    background-color: transparent;
+    border-radius: 0;
+    padding: 0;
+    margin: 0;
+}
