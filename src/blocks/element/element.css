@@ -1,11 +1,10 @@
 .element {
-    min-width: 282px;
-    max-width: 282px;
-    border-radius: 10px;
-    justify-self: center;
-    overflow: hidden;
-    margin: 0;
-    padding: 0;
-    position: relative;
-    background-color: #fff;
+  max-width: 100%;
+  grid-template-columns: repeat(auto-fill, 282px);
+  gap: 20px 17px;
+  list-style-type: none;
+  display: grid;
+  justify-content: center;
+  margin: 0 auto;
+  padding: 0;
 }
