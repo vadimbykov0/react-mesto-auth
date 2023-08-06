@@ -1,9 +1,9 @@
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 
 import PopupWithForm from "./PopupWithForm";
-import useFormValidation from "../utils/useFormValidation";
+import useFormValidation from "../hooks/useFormValidation";
 
-export default function EditAvatarPopup({ isOpen, onClose, onUpdateAvatar, isLoading }) {
+export default function EditAvatarPopup({ isOpen, onClose, onUpdateAvatar, isSending }) {
   const input = useRef();
 
   const { values, errors, isValid, isInputValid, handleChange, reset } = useFormValidation();
@@ -24,11 +24,12 @@ export default function EditAvatarPopup({ isOpen, onClose, onUpdateAvatar, isLoa
     <PopupWithForm
       name="avatar"
       title="Обновить аватар"
-      buttonText='Сохранить'
+      buttonText="Сохранить"
+      loadingButtonText="Сохранение"
       isOpen={isOpen}
       onClose={resetForClose}
       onSubmit={handleSubmit}
-      isLoading={isLoading}
+      isSending={isSending}
       isValid={isValid}
     >
       <input
@@ -39,9 +40,9 @@ export default function EditAvatarPopup({ isOpen, onClose, onUpdateAvatar, isLoa
         type="url"
         required
         ref={input}
+        disabled={isSending}
         onChange={handleChange}
         value={values.avatar ? values.avatar : ''}
-        disabled={isLoading}
       />
       <span className="popup__error popup__error_visible">{errors.avatar}</span>
     </PopupWithForm>

@@ -3,13 +3,17 @@ import React, { useContext } from "react";
 import Card from "./Card";
 import CurrentUserContext from "../contexts/CurrentUserContext";
 
-export default function Main({ onEditAvatar, onEditProfile, onAddPlace, onCardClick, onDelete, cards, onCardLike }) {
+export default function Main({ onEditAvatar, onEditProfile, onAddPlace, onCardClick, onCardDelete, cards, onCardLike }) {
   const currentUser = useContext(CurrentUserContext);
 
   return (
     <main className="content">
       <section className="profile" aria-label="Профиль">
-        <button className="profile__avatar-button" type="button" onClick={onEditAvatar}>
+        <button
+          className="profile__avatar-button"
+          type="button"
+          onClick={onEditAvatar}
+        >
           <img className="profile__image" src={currentUser.avatar} alt="Аватар пользователя" />
         </button>
         <div className="profile__info">
@@ -30,7 +34,8 @@ export default function Main({ onEditAvatar, onEditProfile, onAddPlace, onCardCl
         />
       </section>
       <section
-        className="elements" aria-label="Карточки мест">
+        className="elements" aria-label="Карточки мест"
+      >
         {cards.map((data) => {
           return (
             <div className="element" key={data._id}>
@@ -38,7 +43,7 @@ export default function Main({ onEditAvatar, onEditProfile, onAddPlace, onCardCl
                 card={data}
                 onCardLike={onCardLike}
                 onCardClick={onCardClick}
-                onDelete={onDelete}
+                onCardDelete={onCardDelete}
               />
             </div>
           );

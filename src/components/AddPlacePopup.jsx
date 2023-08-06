@@ -1,7 +1,9 @@
-import useFormValidation from "../utils/useFormValidation";
+import { useEffect } from "react";
+
+import useFormValidation from "../hooks/useFormValidation";
 import PopupWithForm from "./PopupWithForm";
 
-export default function AddPlacePopup({ isOpen, onClose, onAddPlace, isLoading }) {
+export default function AddPlacePopup({ isOpen, onClose, onAddPlace, isSending }) {
   const { values, errors, isValid, isInputValid, handleChange, reset } = useFormValidation();
 
   function resetForClose() {
@@ -26,7 +28,7 @@ export default function AddPlacePopup({ isOpen, onClose, onAddPlace, isLoading }
       onClose={resetForClose}
       isValid={isValid}
       onSubmit={handleSubmit}
-      isLoading={isLoading}
+      isSending={isSending}
     >
       <label className="popup__form-container">
         <input
@@ -39,8 +41,8 @@ export default function AddPlacePopup({ isOpen, onClose, onAddPlace, isLoading }
           maxLength={30}
           required
           onChange={handleChange}
-          disabled={isLoading}
           value={values.title ? values.title : ''}
+          disabled={isSending}
       />
         <span className="popup__error popup__error_visible">{errors.title}</span>
       </label>
@@ -53,8 +55,8 @@ export default function AddPlacePopup({ isOpen, onClose, onAddPlace, isLoading }
           type="url"
           required
           onChange={handleChange}
-          disabled={isLoading}
           value={values.link ? values.link : ''}
+          disabled={isSending}
         />
         <span className="popup__error popup__error_visible">{errors.link}</span>
       </label>

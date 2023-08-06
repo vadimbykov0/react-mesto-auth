@@ -1,10 +1,12 @@
-export default function PopupWithForm({ name, title, buttonText, children, isOpen, onClose, onSubmit, isLoading, isValid=true }) {
+export default function PopupWithForm({ name, title, buttonText, children, isOpen, onClose, onSubmit, isSending, isValid=true }) {
   return (
-    <div className={`popup popup_type_${name} ${isOpen ? `popup_opened` : ''}`}>
-      <div className={`popup__container ${name === "delete" ? `popup__container_delete` : ''} ${name === "avatar" ? `popup__container_avatar` : ""}`}>
+    <div className={`popup popup_type_${name} ${isOpen ? 'popup_opened' : ''}`}>
+      <div
+        className={`popup__container ${name === "delete" ? 'popup__container_delete' : ''} ${name === "avatar" ? 'popup__container_avatar' : ''}`}
+      >
         <h2 className="popup__title">{title}</h2>
         <form
-          className="popup__form"
+          className={`popup__form ${name === "delete" ? 'popup__form_delete' : ''} ${name === "avatar" ? 'popup__form_avatar' : ''}`}
           name={name}
           method="get"
           action="#"
@@ -13,12 +15,11 @@ export default function PopupWithForm({ name, title, buttonText, children, isOpe
         >
           {children}
           <button
-            className={`popup__button ${isValid ? "" : `popup__button_disabled`}`}
+            className={`popup__button ${isValid ? '' : `popup__button_disabled`}`}
             type="submit"
-            name="submit"
-            disabled={isLoading}
+            disabled={isSending}
           >
-            {isLoading ? `${buttonText} ...` : buttonText}
+            {isSending ? `${buttonText} ...` : buttonText}
           </button>
         </form>
         <button

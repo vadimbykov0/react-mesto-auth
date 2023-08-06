@@ -5,11 +5,11 @@ import Header from "./Header";
 import Main from "./Main";
 import Footer from "./Footer";
 
-import PopupWithForm from "./PopupWithForm";
 import ImagePopup from "./ImagePopup";
 import EditProfilePopup from "./EditProfilePopup";
 import EditAvatarPopup from "./EditAvatarPopup";
 import AddPlacePopup from "./AddPlacePopup";
+import ConfirmDeletePopup from "./ConfirmDeletePopup"
 
 import Register from "./Register";
 import Login from "./Login";
@@ -30,34 +30,27 @@ function App() {
   const [isInfoTooltipPopup, setIsInfoTooltipPopup] = useState(false);
 
   const [cards, setCards] = useState([]);
-  const [deleteCardId, setDeleteCardId] = useState("");
+  const [cardForDelete, setCardForDelete] = useState('');
   const [selectedCard, setSelectedCard] = useState({});
 
   const [currentUser, setCurrentUser] = useState({});
 
-  const [headerEmail, setHeaderEmail] = useState("");
+  const [headerEmail, setHeaderEmail] = useState('');
   const [loggedIn, setLoggedIn] = useState(false);
   const [isInfoTooltipSuccess, setIsInfoTooltipSuccess] = useState(false);
   
-  const [isLoading, setIsLoading] = useState(false);
+  const [isSending, setIsSending] = useState(false);
 
   const navigate = useNavigate();
 
-  const isOpen = isEditProfilePopupOpen || isAddPlacePopupOpen || isEditAvatarPopupOpen || isImagePopup || isDeletePopupOpen || isInfoTooltipPopup;
-
-  useEffect(() => {
-    function closeByEscape(evt) {
-      if (evt.key === 'Escape') {
-        closeAllPopups();
-      }
-    }
-    if (isOpen) {
-      document.addEventListener('keydown', closeByEscape);
-      return () => {
-        document.removeEventListener('keydown', closeByEscape);
-      }
-    }
-  }, [isOpen]);
+  function closeAllPopups() {
+    setProfilePopupOpen(false);
+    setPlacePopupOpen(false);
+    setAvatarPopupOpen(false);
+    setDeletePopupOpen(false);
+    setImagePopup(false);
+    setIsInfoTooltipPopup(false);
+  }
 
   useEffect(() => {
     checkToken();
@@ -76,27 +69,15 @@ function App() {
     }
   }, [loggedIn]);
 
-  function closeAllPopups() {
-    setProfilePopupOpen(false);
-    setPlacePopupOpen(false);
-    setAvatarPopupOpen(false);
-    setDeletePopupOpen(false);
-    setImagePopup(false);
-    setIsInfoTooltipPopup(false);
-  };
-
-  function handleLike(card) {
+  function handleCardLike(card) {
     const isLiked = card.likes.some(i => i._id === currentUser._id);
     api.changeLikeCardStatus(card._id, isLiked)
-      .then(
-        (newCard) => {
-          const newCards = cards.map((currentCard) => currentCard._id === card._id ? newCard : currentCard)
-          setCards(newCards);
-        },
-        (err) => {
-          console.log(err);
-        }
-      );
+      .then((newCard) => {
+        setCards((state) => state.map((c) => c._id === card._id ? newCard : c));
+      })
+      .catch((err) => {
+        console.log(err)
+      })
   };
 
   function handleRegister(data) {
@@ -152,8 +133,8 @@ function App() {
 
   function logOut() {
     setLoggedIn(false);
-    localStorage.removeItem("jwt");
-    setHeaderEmail("");
+    localStorage.removeItem('jwt');
+    setHeaderEmail('');
   };
 
   function handleEditProfileClick() {
@@ -173,72 +154,67 @@ function App() {
     setImagePopup(true);
   };
 
-  function handleDeleteClick(cardId) {
-    setDeleteCardId(cardId);
+  function handleDeleteClick(card) {
+    setCardForDelete(card);
     setDeletePopupOpen(true);
   };
 
-  function handleDeleteSubmit(evt) {
-    evt.preventDefault();
-    setIsLoading(true);
-    api.deleteCard(deleteCardId)
+  function handleCardDelete(card) {
+    setIsSending(true);
+    api.deleteCard(cardForDelete._id)
       .then(() => {
-        setCards(cards.filter((i) => {
-            return i._id !== deleteCardId;
-          })
-        );
+        setCards(cards.filter((item) => item !== cardForDelete));
         closeAllPopups();
-        setIsLoading(false);
+        setIsSending(false);
       })
       .catch((err) => {
-        console.log(err)
+        console.log(`Ошибка при удалении карточки места ${err}`)
       })
-      .finally(() => setIsLoading(false))
   };
 
   function handleUpdateUser(dataUser, reset) {
-    setIsLoading(true);
+    setIsSending(true);
     api.changeUserInfo(dataUser)
       .then((res) => {
         setCurrentUser(res);
         closeAllPopups();
         reset();
-        setIsLoading(false);
+        setIsSending(false);
       })
       .catch((err) => {
-        console.log(err)
+        console.log(`Ошибка при редактировании данных пользователя ${err}`)
       })
-      .finally(() => setIsLoading(false))
+      .finally(() => setIsSending(false))
   };
 
   function handleUpdateAvatar(dataUser, reset) {
-    setIsLoading(true);
+    setIsSending(true);
     api.setUserAvatar(dataUser)
       .then((res) => {
         setCurrentUser(res);
         closeAllPopups();
         reset();
-        setIsLoading(false);
+        setIsSending(false);
       })
       .catch((err) => {
-        console.log(err)
+        console.log(`Ошибка при редактировании аватара ${err}`)
       })
-      .finally(() => setIsLoading(false))
+      .finally(() => setIsSending(false))
   };
 
   function handleAddPlaceSubmit(dataCard, reset) {
-    setIsLoading(true);
+    setIsSending(true);
     api.addNewCard(dataCard)
       .then((res) => {
         setCards([res, ...cards]);
         closeAllPopups();
         reset();
-        setIsLoading(false);
+        setIsSending(false);
       })
       .catch((err) => {
-        console.log(err)
+        console.log(`Ошибка при добавлении карточки места ${err}`)
       })
-      .finally(() => setIsLoading(false))
+      .finally(() => setIsSending(false))
   };
 
   return (
@@ -271,8 +247,8 @@ function App() {
                 onAddPlace={handleAddPlaceClick}
                 onEditAvatar={handleEditAvatarClick}
                 onCardClick={handleCardClick}
-                onDelete={handleDeleteClick}
-                onCardLike={handleLike}
+                onCardDelete={handleDeleteClick}
+                onCardLike={handleCardLike}
                 loggedIn={loggedIn}
                 element={Main}
                 cards={cards}
@@ -286,33 +262,30 @@ function App() {
         <EditProfilePopup
           isOpen={isEditProfilePopupOpen}
           onClose={closeAllPopups}
-          isLoading={isLoading}
           onUpdateUser={handleUpdateUser}
+          isSending={isSending}
         />
 
         <AddPlacePopup
           isOpen={isAddPlacePopupOpen}
           onClose={closeAllPopups}
-          isLoading={isLoading}
           onAddPlace={handleAddPlaceSubmit}
+          isSending={isSending}
         />
 
         <EditAvatarPopup
           isOpen={isEditAvatarPopupOpen}
           onClose={closeAllPopups}
-          isLoading={isLoading}
           onUpdateAvatar={handleUpdateAvatar}
+          isSending={isSending}
         />
 
-        <PopupWithForm
-          name='delete'
-          title='Вы уверены?'
-          buttonText='Да'
+        <ConfirmDeletePopup
           isOpen={isDeletePopupOpen}
           onClose={closeAllPopups}
-          isLoading={isLoading}
-          onSubmit={handleDeleteSubmit}>
-        </PopupWithForm>
+          onDeleteCardConfirm={handleCardDelete}
+          cardId={cardForDelete}
+        />
 
         <ImagePopup
           isOpen={isImagePopup}

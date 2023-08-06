@@ -27,7 +27,7 @@ export default function Header({ loggedIn, email, logOut }) {
             element={<Link to="/sign-up" className="header__link header__button">Регистрация</Link>}
           />
           <Route
-            path="*"
+            path="/"
             element={<Navigate to={loggedIn ? "/" : "/sign-in"} />}
           />
         </Routes>
