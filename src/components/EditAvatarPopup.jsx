@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useRef } from "react";
 
 import PopupWithForm from "./PopupWithForm";
 import useFormValidation from "../hooks/useFormValidation";
@@ -25,7 +25,6 @@ export default function EditAvatarPopup({ isOpen, onClose, onUpdateAvatar, isSen
       name="avatar"
       title="Обновить аватар"
       buttonText="Сохранить"
-      loadingButtonText="Сохранение"
       isOpen={isOpen}
       onClose={resetForClose}
       onSubmit={handleSubmit}

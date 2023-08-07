@@ -48,7 +48,10 @@ export default function Register(props) {
             required
           />
         </fieldset>
-        <button className="auth__submit">Зарегистрироваться</button>
+        <button
+          className="auth__submit"
+        >
+          Зарегистрироваться</button>
       </form>
       <Link to="/sign-in" className="auth__link">
         Уже зарегистрированы? Войти

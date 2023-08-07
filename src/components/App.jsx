@@ -39,7 +39,10 @@ function App() {
   const [loggedIn, setLoggedIn] = useState(false);
   const [isInfoTooltipSuccess, setIsInfoTooltipSuccess] = useState(false);
   
-  const [isSending, setIsSending] = useState(false);
+  const [isLoadingEditProfilePopup, setIsLoadingEditProfilePopup] = useState(false);
+  const [isLoadingAddPlacePopup, setIsLoadingAddPlacePopup] = useState(false);
+  const [isLoadingEditAvatarPopup, setIsLoadingEditAvatarPopup] = useState(false);
+  const [isLoadingDeletePopupOpen, setIsLoadingDeletePopupOpen] = useState(false);
 
   const navigate = useNavigate();
 
@@ -159,62 +162,63 @@ function App() {
     setDeletePopupOpen(true);
   };
 
-  function handleCardDelete(card) {
-    setIsSending(true);
+  function handleCardDelete() {
+    setIsLoadingDeletePopupOpen(true);
     api.deleteCard(cardForDelete._id)
       .then(() => {
         setCards(cards.filter((item) => item !== cardForDelete));
         closeAllPopups();
-        setIsSending(false);
+        setIsLoadingDeletePopupOpen(false);
       })
       .catch((err) => {
         console.log(`Ошибка при удалении карточки места ${err}`)
       })
+      .finally(() => setIsLoadingDeletePopupOpen(false))
   };
 
   function handleUpdateUser(dataUser, reset) {
-    setIsSending(true);
+    setIsLoadingEditProfilePopup(true);
     api.changeUserInfo(dataUser)
       .then((res) => {
         setCurrentUser(res);
         closeAllPopups();
         reset();
-        setIsSending(false);
+        setIsLoadingEditProfilePopup(false);
       })
       .catch((err) => {
         console.log(`Ошибка при редактировании данных пользователя ${err}`)
       })
-      .finally(() => setIsSending(false))
+      .finally(() => setIsLoadingEditProfilePopup(false))
   };
 
   function handleUpdateAvatar(dataUser, reset) {
-    setIsSending(true);
+    setIsLoadingEditAvatarPopup(true);
     api.setUserAvatar(dataUser)
       .then((res) => {
         setCurrentUser(res);
         closeAllPopups();
         reset();
-        setIsSending(false);
+        setIsLoadingEditAvatarPopup(false);
       })
       .catch((err) => {
         console.log(`Ошибка при редактировании аватара ${err}`)
       })
-      .finally(() => setIsSending(false))
+      .finally(() => setIsLoadingEditAvatarPopup(false))
   };
 
   function handleAddPlaceSubmit(dataCard, reset) {
-    setIsSending(true);
+    setIsLoadingAddPlacePopup(true);
     api.addNewCard(dataCard)
       .then((res) => {
         setCards([res, ...cards]);
         closeAllPopups();
         reset();
-        setIsSending(false);
+        setIsLoadingAddPlacePopup(false);
       })
       .catch((err) => {
         console.log(`Ошибка при добавлении карточки места ${err}`)
       })
-      .finally(() => setIsSending(false))
+      .finally(() => setIsLoadingAddPlacePopup(false))
   };
 
   return (
@@ -263,21 +267,21 @@ function App() {
           isOpen={isEditProfilePopupOpen}
           onClose={closeAllPopups}
           onUpdateUser={handleUpdateUser}
-          isSending={isSending}
+          isSending={isLoadingEditProfilePopup}
         />
 
         <AddPlacePopup
           isOpen={isAddPlacePopupOpen}
           onClose={closeAllPopups}
           onAddPlace={handleAddPlaceSubmit}
-          isSending={isSending}
+          isSending={isLoadingAddPlacePopup}
         />
 
         <EditAvatarPopup
           isOpen={isEditAvatarPopupOpen}
           onClose={closeAllPopups}
           onUpdateAvatar={handleUpdateAvatar}
-          isSending={isSending}
+          isSending={isLoadingEditAvatarPopup}
         />
 
         <ConfirmDeletePopup
@@ -285,6 +289,7 @@ function App() {
           onClose={closeAllPopups}
           onDeleteCardConfirm={handleCardDelete}
           cardId={cardForDelete}
+          isSending={isLoadingDeletePopupOpen}
         />
 
         <ImagePopup

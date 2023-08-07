@@ -1,6 +1,6 @@
 import React from "react";
 import logo from "../images/logo.svg";
-import { Routes, Route, Link, useLocation, Navigate } from "react-router-dom";
+import { Routes, Route, Link, useLocation } from "react-router-dom";
 
 export default function Header({ loggedIn, email, logOut }) {
   const location = useLocation();
@@ -15,7 +15,6 @@ export default function Header({ loggedIn, email, logOut }) {
         alt="Логотип проекта Mesto"
       />
       <div className="header__links">
-        {loggedIn && <p className="header__email">{email}</p>}
         <Routes>
           <Route
             path="/sign-up"
@@ -28,11 +27,14 @@ export default function Header({ loggedIn, email, logOut }) {
           />
           <Route
             path="/"
-            element={<Navigate to={loggedIn ? "/" : "/sign-in"} />}
+            element={
+              <>
+                <p className="header__email">{email}</p>
+                <button className="header__link header__button" onClick={logOut}>{buttonText}</button>
+              </>
+            }
           />
         </Routes>
-        {loggedIn && (<button className="header__link header__button" onClick={logOut}>{buttonText}</button>
-        )}
       </div>
     </header>
   );

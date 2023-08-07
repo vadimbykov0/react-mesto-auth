@@ -43,7 +43,10 @@ export default function Login(props) {
             required
           />
         </fieldset>
-        <button className="auth__submit">Войти</button>
+        <button
+          className="auth__submit"
+        >
+          Войти</button>
       </form>
     </div>
   );

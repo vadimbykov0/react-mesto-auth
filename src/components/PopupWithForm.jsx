@@ -2,7 +2,7 @@ export default function PopupWithForm({ name, title, buttonText, children, isOpe
   return (
     <div className={`popup popup_type_${name} ${isOpen ? 'popup_opened' : ''}`}>
       <div
-        className={`popup__container ${name === "delete" ? 'popup__container_delete' : ''} ${name === "avatar" ? 'popup__container_avatar' : ''}`}
+        className={`popup__container popup__container${name} ${name === "delete" || "avatar" ? 'popup__container_delete' : ''}`}
       >
         <h2 className="popup__title">{title}</h2>
         <form
@@ -17,7 +17,7 @@ export default function PopupWithForm({ name, title, buttonText, children, isOpe
           <button
             className={`popup__button ${isValid ? '' : `popup__button_disabled`}`}
             type="submit"
-            disabled={isSending}
+            disabled={!isValid}
           >
             {isSending ? `${buttonText} ...` : buttonText}
           </button>
