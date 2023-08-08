@@ -1,52 +1,57 @@
-import React, { useState } from "react";
+import React from "react";
+import useFormValidation from "../hooks/useFormValidation";
 
-export default function Login(props) {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+export default function Login({ onLogin }) {
+  const { values, errors, isValid, isInputValid, handleChange, reset } = useFormValidation();
 
   function handleSubmit(evt) {
     evt.preventDefault();
-    props.onLogin({ email, password });
-  };
-
-  function handleChangeEmail(evt) {
-    setEmail(evt.target.value);
-  };
-
-  function handleChangePassword(evt) {
-    setPassword(evt.target.value);
+    onLogin(values);
+    reset();
   };
 
   return (
     <div className="auth">
       <h3 className="auth__title">Вход</h3>
-      <form className="auth__form" onSubmit={handleSubmit}>
+      <form
+        name="login"
+        className="auth__form"
+        noValidate
+        onSubmit={handleSubmit}
+      >
         <fieldset className="auth__fieldset">
           <input
-            className="auth__input"
-            type="email"
             name="email"
-            value={email}
+            id="email"
+            type="email"
+            className={`auth__input ${isInputValid.email === undefined || isInputValid.email ? '' : 'auth__input_error'}`}
+            value={values.email ? values.email : ''}
             placeholder="Email"
-            onChange={handleChangeEmail}
+            onChange={handleChange}
             required
           />
+          <span className="auth__error">{errors.email}</span>
           <input
-            className="auth__input"
-            type="password"
             name="password"
-            value={password}
+            id="password"
+            type="password"
+            className={`auth__input ${isInputValid.password === undefined || isInputValid.password ? '' : 'auth__input_error'}`}
+            value={values.password ? values.password : ''}
             placeholder="Пароль"
-            minLength={3}
+            minLength={8}
             maxLength={10}
-            onChange={handleChangePassword}
+            onChange={handleChange}
             required
           />
+          <span className="auth__error">{errors.password}</span>
         </fieldset>
         <button
-          className="auth__submit"
+          type="submit"
+          className={`auth__submit ${isValid ? '' : `auth__submit_disabled`}`}
+          disabled={!isValid}
         >
-          Войти</button>
+          Войти
+        </button>
       </form>
     </div>
   );

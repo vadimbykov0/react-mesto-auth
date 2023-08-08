@@ -1,9 +1,7 @@
 export default function PopupWithForm({ name, title, buttonText, children, isOpen, onClose, onSubmit, isSending, isValid=true }) {
   return (
     <div className={`popup popup_type_${name} ${isOpen ? 'popup_opened' : ''}`}>
-      <div
-        className={`popup__container popup__container${name} ${name === "delete" || "avatar" ? 'popup__container_delete' : ''}`}
-      >
+      <div className={`popup__container popup__container${name} ${name === "delete" || "avatar" ? 'popup__container_delete' : ''}`}>
         <h2 className="popup__title">{title}</h2>
         <form
           className={`popup__form ${name === "delete" ? 'popup__form_delete' : ''} ${name === "avatar" ? 'popup__form_avatar' : ''}`}

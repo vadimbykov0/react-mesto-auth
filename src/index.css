@@ -62,9 +62,12 @@
 @import url(./blocks/popup/__success/_type_ok/popup__success_type_ok.css);
 
 @import url(./blocks/auth/auth.css);
+@import url(./blocks/auth/__error/auth__error.css);
 @import url(./blocks/auth/__fieldset/auth__fieldset.css);
 @import url(./blocks/auth/__form/auth__form.css);
 @import url(./blocks/auth/__input/auth__input.css);
+@import url(./blocks/auth/__input_error/auth__input_error.css);
 @import url(./blocks/auth/__link/auth__link.css);
 @import url(./blocks/auth/__submit/auth__submit.css);
+@import url(./blocks/auth/__submit_disabled/auth__submit_disabled.css);
 @import url(./blocks/auth/__title/auth__title.css);
