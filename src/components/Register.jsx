@@ -51,7 +51,7 @@ export default function Register({ onRegister }) {
         </fieldset>
         <button
           type="submit"
-          className={`auth__submit ${isValid ? '' : `auth__submit_disabled`}`}
+          className={`auth__submit ${isValid ? '' : 'auth__submit_disabled'}`}
           disabled={!isValid}
         >
           Зарегистрироваться

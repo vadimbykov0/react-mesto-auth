@@ -29,8 +29,17 @@ export default function Header({ loggedIn, email, logOut }) {
             path="/"
             element={
               <>
-                <p className="header__email">{email}</p>
-                <button className="header__link header__button" onClick={logOut}>{buttonText}</button>
+                <p
+                  className="header__email"
+                >
+                  {email}
+                </p>
+                <button
+                  className="header__link header__button"
+                  onClick={logOut}
+                >
+                  {buttonText}
+                </button>
               </>
             }
           />

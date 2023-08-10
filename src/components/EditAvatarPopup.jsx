@@ -43,7 +43,7 @@ export default function EditAvatarPopup({ isOpen, onClose, onUpdateAvatar, isSen
         onChange={handleChange}
         value={values.avatar ? values.avatar : ''}
       />
-      <span className="popup__error popup__error_visible">{errors.avatar}</span>
+      <span className="popup__error">{errors.avatar}</span>
     </PopupWithForm>
   );
 }

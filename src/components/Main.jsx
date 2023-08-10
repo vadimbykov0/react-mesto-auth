@@ -8,7 +8,10 @@ export default function Main({ onEditAvatar, onEditProfile, onAddPlace, onCardCl
 
   return (
     <main className="content">
-      <section className="profile" aria-label="Профиль">
+      <section
+        className="profile"
+        aria-label="Профиль"
+      >
         <button
           className="profile__avatar-button"
           type="button"
@@ -34,7 +37,8 @@ export default function Main({ onEditAvatar, onEditProfile, onAddPlace, onCardCl
         />
       </section>
       <section
-        className="elements" aria-label="Карточки мест"
+        className="elements"
+        aria-label="Карточки мест"
       >
         {cards.map((data) => {
           return (

@@ -19,9 +19,9 @@ export default function AddPlacePopup({ isOpen, onClose, onAddPlace, isSending }
 
   return (
     <PopupWithForm
-      name='add-place'
-      title='Новое место'
-      buttonText='Создать'
+      name="add-place"
+      title="Новое место"
+      buttonText="Создать"
       isOpen={isOpen}
       onClose={resetForClose}
       isValid={isValid}
@@ -30,33 +30,33 @@ export default function AddPlacePopup({ isOpen, onClose, onAddPlace, isSending }
     >
       <label className="popup__form-container">
         <input
+          name="title"
+          id="title"
+          type="text"
           className={`popup__input ${isInputValid.title === undefined || isInputValid.title ? '' : 'popup__input-error'}`}
           placeholder="Название"
-          id="title"
-          name="title"
-          type="text"
           minLength={2}
           maxLength={30}
-          required
           onChange={handleChange}
           value={values.title ? values.title : ''}
           disabled={isSending}
+          required
       />
-        <span className="popup__error popup__error_visible">{errors.title}</span>
+        <span className="popup__error">{errors.title}</span>
       </label>
       <label className="popup__form-container">
         <input
+          name="link"
+          id="link"
+          type="url"
           className={`popup__input ${isInputValid.link === undefined || isInputValid.link ? '' : 'popup__input-error'}`}
           placeholder="Ссылка на картинку"
-          id="link"
-          name="link"
-          type="url"
-          required
           onChange={handleChange}
           value={values.link ? values.link : ''}
           disabled={isSending}
+          required
         />
-        <span className="popup__error popup__error_visible">{errors.link}</span>
+        <span className="popup__error">{errors.link}</span>
       </label>
     </PopupWithForm>
   );

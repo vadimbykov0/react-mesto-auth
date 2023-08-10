@@ -54,13 +54,13 @@
 @import url(./blocks/popup/__container-image/popup__container-image.css);
 @import url(./blocks/popup/__input-error/popup__input-error.css);
 @import url(./blocks/popup/__error/popup__error.css);
-@import url(./blocks/popup/__error_visible/popup__error_visible.css);
 @import url(./blocks/popup/__button_disabled/popup__button_disabled.css);
 @import url(./blocks/popup/__title/_type_tooltip.css/popup__title_type_tooltip.css);
 @import url(./blocks/popup/__success/popup__success.css);
 @import url(./blocks/popup/__success/_type_fail/popup__success_type_fail.css);
 @import url(./blocks/popup/__success/_type_ok/popup__success_type_ok.css);
 
+/* Authorization */
 @import url(./blocks/auth/auth.css);
 @import url(./blocks/auth/__error/auth__error.css);
 @import url(./blocks/auth/__fieldset/auth__fieldset.css);

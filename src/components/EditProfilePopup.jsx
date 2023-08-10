@@ -33,7 +33,7 @@ export default function EditProfilePopup({ isOpen, onClose, onUpdateUser, isSend
     <PopupWithForm
       name="profile"
       title="Редактировать профиль"
-      buttonText='Сохранить'
+      buttonText="Сохранить"
       isOpen={isOpen}
       onClose={resetForClose}
       isValid={isValid}
@@ -41,33 +41,33 @@ export default function EditProfilePopup({ isOpen, onClose, onUpdateUser, isSend
       onSubmit={handleSubmit}
     >
       <input
+        name="name"
+        id="name"
+        type="text"
         className={`popup__input ${isInputValid.name === undefined || isInputValid.name ? '' : 'popup__input-error'}`}
         placeholder="Введите имя"
-        id="name"
-        name="name"
-        type="text"
         minLength={2}
         maxLength={40}
-        required
         disabled={isSending}
         onChange={handleChange}
         value={values.name ? values.name : ''}
+        required
       />
-      <span className="popup__error popup__error_visible">{errors.name}</span>
+      <span className="popup__error">{errors.name}</span>
       <input
+        name="about"
+        id="about"
+        type="text"
         className={`popup__input ${isInputValid.about === undefined || isInputValid.about ? '' : 'popup__input-error'}`}
         placeholder="Введите описание"
-        id="about"
-        name="about"
-        type="text"
         minLength={2}
         maxLength={200}
-        required
         disabled={isSending}
         onChange={handleChange}
         value={values.about ? values.about : ''}
+        required
       />
-      <span className="popup__error popup__error_visible">{errors.about}</span>
+      <span className="popup__error">{errors.about}</span>
     </PopupWithForm>
   );
 }
